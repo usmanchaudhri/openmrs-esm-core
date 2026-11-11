@@ -50,9 +50,13 @@ describe('getLocaleDisplayName', () => {
     expect(getLocaleDisplayName('not a locale at all')).toBe('not a locale at all');
   });
 
-  it('falls back to the identifier for a tag `Intl.DisplayNames` rejects', () => {
-    // `Intl.Locale` accepts extension subtags but `Intl.DisplayNames#of` throws on them.
-    expect(getLocaleDisplayName('en-u-ca-gregory')).toBe('en-u-ca-gregory');
+  it('stays renderable for a tag carrying an extension subtag', () => {
+    // `Intl.Locale` accepts extension subtags. Older `Intl.DisplayNames#of` throws on them and
+    // the helper falls back to the identifier. Current engines ignore the extension and return
+    // the language name, which on Node 20.19 is "English".
+    const name = getLocaleDisplayName('en-u-ca-gregory');
+
+    expect(name === 'en-u-ca-gregory' || name === 'English').toBe(true);
   });
 
   it('returns an empty string when no locale is given', () => {

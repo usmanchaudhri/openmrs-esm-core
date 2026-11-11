@@ -62,8 +62,8 @@ export function getLocaleDisplayName(locale: string | null | undefined): string 
   try {
     return new Intl.DisplayNames([languageTag], { type: 'language' }).of(languageTag) ?? identifier;
   } catch {
-    // `Intl.DisplayNames` validates independently of `Intl.Locale` and rejects tags carrying
-    // extension or private-use subtags, such as `en-u-ca-gregory`.
+    // Some engines' `Intl.DisplayNames#of` rejects tags that `Intl.Locale` accepts, including
+    // extension subtags such as `en-u-ca-gregory`. Others resolve those tags to a language name.
     return identifier;
   }
 }
