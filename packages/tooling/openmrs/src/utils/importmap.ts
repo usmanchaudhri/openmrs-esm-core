@@ -223,7 +223,7 @@ function runProjectDevServer(
   useRspack: boolean = false,
 ) {
   const bundle = getMainBundle(project);
-  const host = `http://localhost:${port}`;
+  const host = `http://127.0.0.1:${port}`;
 
   const { ready } = startDevServer(configPath, port, sourceDirectory, useRspack);
   importMap[project.name] = `${host}/${bundle.name}`;
